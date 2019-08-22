@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard</title>
+</head>
+
+<body>
+    <div class="container">
+    @model List<Wedding>
+        <div class="row">
+            <div class="col-5">
+                <h4>Welcome to the Planner, @ViewBag.userName</h4>
+            </div>
+            <div class="col-4"></div>
+            <div class="col-2">
+                <a href="logout">Logout</a>
+            </div>
+        </div>
+        <div class="col-10">
+            <table class="table table-striped">
+                <thead class="text-white bg-primary">
+                    <tr>
+                        <th scope="col">Wedding</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Guest</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var i in Model)
+                    {
+                        <tr>
+                            <td><a href="showInfo/@i.WeddingId">@i.Wedder1 & @i.Wedder2</a></td>
+                            <td>@i.WedDate.ToString("MMM d yyyy")</td>
+                            <td>@i.WeddingGuest.Count()</td>
+                            @if(i.UserId == ViewBag.UserId)
+                            {
+                                <td><a href="/delete/@i.WeddingId">Delete</a></td>
+                            }
+                            else
+                            {
+                                if(i.WeddingGuest.Any( w => w.UserId == ViewBag.UserId))
+                                {
+                                    <td><a href="/unrsvp/@i.WeddingId">Un-RSVP</a></td>
+                                   
+                                }
+                                else
+                                {
+                                     <td><a href="/rsvp/@i.WeddingId">RSVP</a></td>
+                                }
+                            }
+                            
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-3" >
+                <a href="/newWedding" class="btn btn-primary" role="button" >New Wedding</a>
+            </div>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
